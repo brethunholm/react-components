@@ -1,6 +1,5 @@
 import './SeasonDisplay.css';
 import React from 'react';
-// import styled from 'styled-components';
 
 const seasonConfig = {
   summer: {
@@ -12,24 +11,6 @@ const seasonConfig = {
     iconName: 'snowflake',
   },
 };
-
-// const StyledSeason = styled.div`
-//   display: grid;
-//   justify-items: center;
-//   align-items: center;
-//   justify-content: center;
-//   height: 100vh;
-//   width: 100vw;
-//   background-image: linear-gradient(to bottom right, red, yellow);
-//   h1 {
-//     font-size: 80px;
-//     text-shadow: 2px 2px #ff0000;
-//     color: white;
-//   }
-//   .github icon {
-//     font-size: 25px;
-//   }
-// `;
 
 function getSeason(lat, month) {
   if (month > 2 && month < 9) {
