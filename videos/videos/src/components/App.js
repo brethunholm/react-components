@@ -1,12 +1,14 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
 import React from 'react';
 import SearchBar from './SearchBar';
 import youtube from '../apis/youtube';
 import VideoList from './VideoList';
+import VideoDetail from './VideoDetail';
 
 export default class App extends React.Component {
-  state = { videos: [] };
+  state = { videos: [], selectedVideo: null };
 
   onTermSubmit = async (term) => {
     const res = await youtube.get('/search', {
@@ -17,11 +19,19 @@ export default class App extends React.Component {
     this.setState({ videos: res.data.items });
   };
 
+  onVideoSelect = (video) => {
+    this.setState({ selectedVideo: video });
+  };
+
   render() {
     return (
       <div className="ui container">
         <SearchBar onFormSubmit={this.onTermSubmit} />
-        <VideoList videos={this.state.videos} />
+        <VideoDetail video={this.state.selectedVideo} />
+        <VideoList
+          onVideoSelect={this.onVideoSelect}
+          videos={this.state.videos}
+        />
       </div>
     );
   }
