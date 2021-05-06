@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/state-in-constructor */
@@ -13,7 +14,8 @@ export default class SearchBar extends React.Component {
 
   onFormSubmit = (e) => {
     e.preventDefault();
-    // TODO make sure we call, callback from parent component
+
+    this.props.onFormSubmit(this.state.term);
   };
 
   render() {
