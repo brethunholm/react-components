@@ -5,7 +5,17 @@ import axios from 'axios';
 
 export default function Search() {
   const [term, setTerm] = useState('kittens');
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(term);
+      return () => {
+        clearTimeout(timerId);
+      };
+    }, 1000);
+  }, [term]);
 
   useEffect(() => {
     const search = async () => {
@@ -15,13 +25,16 @@ export default function Search() {
           list: 'search',
           origin: '*',
           format: 'json',
-          srsearch: term,
+          srsearch: debouncedTerm,
         },
       });
+
       setResults(data.query.search);
     };
-    search();
-  }, [term]);
+    if (debouncedTerm) {
+      search();
+    }
+  }, [debouncedTerm]);
 
   const renderedResults = results.map((result) => (
     <div key={result.pageid} className="item">
