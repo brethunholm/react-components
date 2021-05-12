@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div>
       {/* <Accordion items={items} /> */}
-      <Search />
+      {/* <Search /> */}
     </div>
   );
 }
