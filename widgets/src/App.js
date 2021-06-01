@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import Accordion from './components/Accordion';
-// import Dropdown from './components/Dropdown';
+import Accordion from './components/Accordion';
+import Dropdown from './components/Dropdown';
 import Translate from './components/Translate';
-// import Search from './components/Search';
+import Search from './components/Search';
 
 const items = [
   {
@@ -34,20 +34,42 @@ const options = [
   },
 ];
 
+const showAccordion = () => {
+  if(window.location.pathname === '/') {
+    return <Accordion items={items} />
+  }
+};
+
+const showList = () => {
+  if(window.location.pathname === '/list') {
+    return <Search />;
+  }
+}
+
+const showDropdown = () => {
+  if(window.location.pathname === '/dropdown') {
+    return <Dropdown 
+    // selected={selected}
+    // onSelectedChange={setSelected}
+    // options={options}
+    />
+  }
+}
+
+const showTranslate = () => {
+  if(window.location.pathname === '/translate') {
+    return <Translate /> 
+  }
+}
 export default function App() {
   // const [selected, setSelected] = useState(options[0]);
 
   return (
     <div>
-      {/* <Accordion items={items} />
-      <Search /> */}
-      
-      {/* <Dropdown
-        selected={selected}
-        onSelectedChange={setSelected}
-        options={options}
-      /> */}
-      <Translate />
+      {showAccordion()}
+      {showList()}
+      {showDropdown()}
+      {showTranslate()}
     </div>
   );
 }
