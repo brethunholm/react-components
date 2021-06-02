@@ -1,53 +1,45 @@
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/state-in-constructor */
-import React from 'react';
+/* eslint-disable no-use-before-define */
+import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import youtube from '../apis/youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
 
-export default class App extends React.Component {
-  state = { videos: [], selectedVideo: null };
+export default function App() {
+  const [videos, setVideos] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
-  componentDidMount() {
-    this.onTermSubmit('kittens');
-  }
+  useEffect(() => {
+    onTermSubmit('kittens');
+  }, []);
 
-  onTermSubmit = async (term) => {
+  const onTermSubmit = async (term) => {
     const res = await youtube.get('/search', {
       params: {
         q: term,
       },
     });
-    this.setState({
-      videos: res.data.items,
-      selectedVideo: res.data.items[0],
-    });
+    setVideos(res.data.items);
+    setSelectedVideo(res.data.items[0]);
   };
 
-  onVideoSelect = (video) => {
-    this.setState({ selectedVideo: video });
+  const onVideoSelect = (video) => {
+    setSelectedVideo(video);
   };
 
-  render() {
-    return (
-      <div className="ui container">
-        <SearchBar onFormSubmit={this.onTermSubmit} />
-        <div className="ui grid">
-          <div className="ui row">
-            <div className="eleven wide column">
-              <VideoDetail video={this.state.selectedVideo} />
-            </div>
-            <div className="five wide column">
-              <VideoList
-                onVideoSelect={this.onVideoSelect}
-                videos={this.state.videos}
-              />
-            </div>
+  return (
+    <div className="ui container">
+      <SearchBar onFormSubmit={onTermSubmit} />
+      <div className="ui grid">
+        <div className="ui row">
+          <div className="eleven wide column">
+            <VideoDetail video={selectedVideo} />
+          </div>
+          <div className="five wide column">
+            <VideoList onVideoSelect={onVideoSelect} videos={videos} />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
