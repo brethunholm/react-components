@@ -1,31 +1,20 @@
-/* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
-import youtube from '../apis/youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
+import useVideos from '../hooks/useVideos';
 
 export default function App() {
-  const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videos, search] = useVideos('britney spears');
 
   useEffect(() => {
-    onTermSubmit('kittens');
-  }, []);
-
-  const onTermSubmit = async (term) => {
-    const res = await youtube.get('/search', {
-      params: {
-        q: term,
-      },
-    });
-    setVideos(res.data.items);
-    setSelectedVideo(res.data.items[0]);
-  };
+    setSelectedVideo(videos[0]);
+  }, [videos]);
 
   return (
     <div className="ui container">
-      <SearchBar onFormSubmit={onTermSubmit} />
+      <SearchBar onFormSubmit={search} />
       <div className="ui grid">
         <div className="ui row">
           <div className="eleven wide column">
